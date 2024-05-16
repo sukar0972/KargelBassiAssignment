@@ -5,6 +5,7 @@
             <name>KargelBassiAssignment2</name>
             <source-roots>
                 <root id="src.src.dir" name="KargelBassiAssignment.src"/>
+                <root id="src.src2.dir" name="KargelBassiAssignment.src"/>
             </source-roots>
             <test-roots/>
         </data>

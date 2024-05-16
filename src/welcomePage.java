@@ -16,7 +16,6 @@ import net.miginfocom.swing.*;
 public class welcomePage extends JPanel {
     public static JFrame frame = new JFrame(); //construct JFrame
 
-
     public static void main(String[] args) {
         frame.setContentPane(new welcomePage()); //create a new instance of this class and set the contents of the jframe to it
         frame.pack();
@@ -33,23 +32,14 @@ public class welcomePage extends JPanel {
     private void login(ActionEvent e) {
         // TODO add your code here
 
-        frame.setContentPane(new mainMenu());
-
         String[] users = arrayToDataFile("src/userData.txt");
 
         for (int i = 0; i < users.length; i++) {
             if(inputName.getText().equalsIgnoreCase(users[i])) {
+                frame.setContentPane(new secondMenu(frame, users[i]));
 
-                frame.setContentPane(new mainMenu());
-                System.out.println("S");
             }
         }
-
-
-
-
-
-
     }
 
     private void profile(ActionEvent e) {
@@ -86,6 +76,11 @@ public class welcomePage extends JPanel {
             return dataFile;
         }
 
+        private void exit(ActionEvent e) {
+            // TODO add your code here
+            return;
+        }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         label1 = new JLabel();
@@ -95,6 +90,7 @@ public class welcomePage extends JPanel {
         inputName = new JTextField();
         buttonLogin = new JButton();
         buttonProfile = new JButton();
+        buttonExit = new JButton();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -128,6 +124,10 @@ public class welcomePage extends JPanel {
                 "[]" +
                 "[]" +
                 "[]" +
+                "[]" +
+                "[]" +
+                "[]" +
+                "[]" +
                 "[]"));
 
             //---- textPane1 ----
@@ -151,9 +151,17 @@ public class welcomePage extends JPanel {
             //---- buttonProfile ----
             buttonProfile.setText("Create a profile");
             buttonProfile.addActionListener(e -> profile(e));
-            panel1.add(buttonProfile, "cell 0 5");
+            panel1.add(buttonProfile, "cell 0 6");
+
+            //---- buttonExit ----
+            buttonExit.setText("Exit");
+            buttonExit.addActionListener(e -> {
+			profile(e);
+			exit(e);
+		});
+            panel1.add(buttonExit, "cell 0 8");
         }
-        add(panel1, "cell 0 1 2 3");
+        add(panel1, "cell 0 1 2 3,alignx left,growx 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
@@ -165,5 +173,6 @@ public class welcomePage extends JPanel {
     private JTextField inputName;
     private JButton buttonLogin;
     private JButton buttonProfile;
+    private JButton buttonExit;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.util.Scanner;
 import javax.swing.*;
 import net.miginfocom.swing.*;
 /*
@@ -12,9 +14,10 @@ import net.miginfocom.swing.*;
  * @author macsull
  */
 public class welcomePage extends JPanel {
+    public static JFrame frame = new JFrame(); //construct JFrame
+
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame(); //construct JFrame
         frame.setContentPane(new welcomePage()); //create a new instance of this class and set the contents of the jframe to it
         frame.pack();
         frame.setVisible(true);
@@ -29,7 +32,59 @@ public class welcomePage extends JPanel {
 
     private void login(ActionEvent e) {
         // TODO add your code here
+
+        frame.setContentPane(new mainMenu());
+
+        String[] users = arrayToDataFile("src/userData.txt");
+
+        for (int i = 0; i < users.length; i++) {
+            if(inputName.getText().equalsIgnoreCase(users[i])) {
+
+                frame.setContentPane(new mainMenu());
+                System.out.println("S");
+            }
+        }
+
+
+
+
+
+
     }
+
+    private void profile(ActionEvent e) {
+        // TODO add your code here
+        frame.setContentPane(new createProfile(frame));
+
+
+
+    }
+
+    public static String[] arrayToDataFile(String filePath) {
+            String[] dataFile = new String[0]; //initialize and declare a string array
+            try {
+                int numLines = 0;
+                File f = new File(filePath); //initialize and declare file
+                Scanner counter = new Scanner(f); //initialize scanner to read file once
+                while (counter.hasNextLine()) { //counts the amount of lines in the datafile to make an array with that number of indices
+                    numLines++;
+                    counter.nextLine();
+                }
+
+                //initalize and declare an array with numLines indices
+                dataFile = new String[numLines];
+                Scanner s = new Scanner(f);
+
+                //read array to data file
+                for (int i = 0; i < numLines; i++) {
+                    dataFile[i] = s.nextLine();
+                }
+
+            } catch (Exception e) { //catch any exception
+                System.out.println(e);
+            }
+            return dataFile;
+        }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -37,9 +92,9 @@ public class welcomePage extends JPanel {
         panel1 = new JPanel();
         textPane1 = new JTextPane();
         label2 = new JLabel();
-        textField1 = new JTextField();
+        inputName = new JTextField();
         buttonLogin = new JButton();
-        button2 = new JButton();
+        buttonProfile = new JButton();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -79,22 +134,24 @@ public class welcomePage extends JPanel {
             textPane1.setText("In order to save your results, we need you to login, or create a new profile");
             textPane1.setSelectedTextColor(new Color(0x6666ff));
             textPane1.setBackground(new Color(0x6666ff));
+            textPane1.setEditable(false);
             panel1.add(textPane1, "cell 0 0");
 
             //---- label2 ----
             label2.setText("Username:");
             label2.setFont(label2.getFont().deriveFont(label2.getFont().getStyle() & ~Font.BOLD, label2.getFont().getSize() + 4f));
             panel1.add(label2, "cell 0 2");
-            panel1.add(textField1, "cell 0 2");
+            panel1.add(inputName, "cell 0 2");
 
             //---- buttonLogin ----
             buttonLogin.setText("Login");
             buttonLogin.addActionListener(e -> login(e));
             panel1.add(buttonLogin, "cell 0 3 1 2");
 
-            //---- button2 ----
-            button2.setText("Create a profile");
-            panel1.add(button2, "cell 0 5");
+            //---- buttonProfile ----
+            buttonProfile.setText("Create a profile");
+            buttonProfile.addActionListener(e -> profile(e));
+            panel1.add(buttonProfile, "cell 0 5");
         }
         add(panel1, "cell 0 1 2 3");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -105,8 +162,8 @@ public class welcomePage extends JPanel {
     private JPanel panel1;
     private JTextPane textPane1;
     private JLabel label2;
-    private JTextField textField1;
+    private JTextField inputName;
     private JButton buttonLogin;
-    private JButton button2;
+    private JButton buttonProfile;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
